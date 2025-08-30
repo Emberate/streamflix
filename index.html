@@ -17,11 +17,32 @@
             transition: transform 0.3s ease, z-index 0.3s ease;
         }
         .movie-card:hover {
-            transform: scale(1.1);
+            transform: scale(1.05);
             z-index: 10;
         }
         .hero-gradient {
             background: linear-gradient(45deg, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        .slide-in {
+            animation: slideIn 0.6s ease-out;
+        }
+        @keyframes slideIn {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
     </style>
 </head>
@@ -30,30 +51,107 @@
     <nav class="fixed top-0 left-0 right-0 z-50 bg-black bg-opacity-90 backdrop-blur-sm transition-all duration-300" id="navbar">
         <div class="flex items-center justify-between px-4 py-3 md:px-8">
             <div class="flex items-center space-x-8">
-                <h1 class="text-red-600 text-2xl font-bold">StreamFlix</h1>
+                <h1 class="text-red-600 text-2xl font-bold cursor-pointer hover:text-red-500 transition-colors">StreamFlix</h1>
                 <div class="hidden md:flex space-x-6">
-                    <a href="#" class="hover:text-gray-300 transition-colors">Home</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">TV Shows</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">Movies</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">New & Popular</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">My List</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors relative group">
+                        Home
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#" class="hover:text-gray-300 transition-colors relative group">
+                        TV Shows
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#" class="hover:text-gray-300 transition-colors relative group">
+                        Movies
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#" class="hover:text-gray-300 transition-colors relative group">
+                        New & Popular
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </a>
+                    <a href="#" class="hover:text-gray-300 transition-colors relative group">
+                        My List
+                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-white group-hover:w-full transition-all duration-300"></span>
+                    </a>
                 </div>
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden text-white hover:text-gray-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
             <div class="flex items-center space-x-4">
-                <button class="hover:text-gray-300 transition-colors">
+                <button class="hover:text-gray-300 transition-colors relative group" id="search-btn">
                     <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                     </svg>
                 </button>
-                <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                    <span class="text-sm font-semibold">U</span>
+                <button class="hover:text-gray-300 transition-colors" id="notifications-btn">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L16 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z"></path>
+                    </svg>
+                    <span class="absolute -top-1 -right-1 bg-red-600 text-xs rounded-full h-4 w-4 flex items-center justify-center">3</span>
+                </button>
+                <div class="relative group">
+                    <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center cursor-pointer hover:bg-red-500 transition-colors">
+                        <span class="text-sm font-semibold">U</span>
+                    </div>
+                    <!-- Dropdown menu -->
+                    <div class="absolute right-0 top-full mt-2 w-48 bg-black bg-opacity-95 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+                        <div class="py-2">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-800 transition-colors">Manage Profiles</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-800 transition-colors">Account</a>
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-800 transition-colors">Help Center</a>
+                            <hr class="border-gray-700 my-2">
+                            <a href="#" class="block px-4 py-2 hover:bg-gray-800 transition-colors">Sign out of StreamFlix</a>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden bg-black bg-opacity-95 hidden">
+            <div class="px-4 py-4 space-y-3">
+                <a href="#" class="block hover:text-gray-300 transition-colors">Home</a>
+                <a href="#" class="block hover:text-gray-300 transition-colors">TV Shows</a>
+                <a href="#" class="block hover:text-gray-300 transition-colors">Movies</a>
+                <a href="#" class="block hover:text-gray-300 transition-colors">New & Popular</a>
+                <a href="#" class="block hover:text-gray-300 transition-colors">My List</a>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative h-screen flex items-center justify-start" style="background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.8)), url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1200 800%22><rect fill=%22%23111%22 width=%221200%22 height=%22800%22/><circle fill=%22%23333%22 cx=%22200%22 cy=%22200%22 r=%22100%22/><circle fill=%22%23444%22 cx=%22800%22 cy=%22300%22 r=%22150%22/><rect fill=%22%23222%22 x=%22500%22 y=%22500%22 width=%22300%22 height=%22200%22/></svg>'); background-size: cover; background-position: center;">
+    <section class="relative h-screen flex items-center justify-start">
+        <div class="absolute inset-0 overflow-hidden">
+            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=1920&h=1080&fit=crop&crop=center" alt="Hero Background" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+        </div>
+        <div class="relative z-10 px-4 md:px-8 lg:px-16 max-w-2xl">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
+                Stranger Things
+            </h1>
+            <p class="text-lg md:text-xl mb-6 text-gray-200">
+                When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces and one strange little girl.
+            </p>
+            <div class="flex space-x-4">
+                <button class="bg-white text-black px-8 py-3 rounded font-semibold hover:bg-gray-200 transition-colors flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Play</span>
+                </button>
+                <button class="bg-gray-600 bg-opacity-70 text-white px-8 py-3 rounded font-semibold hover:bg-opacity-50 transition-colors flex items-center space-x-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>More Info</span>
+                </button>
+            </div>
+        </div>
+    </section> r=%22150%22/><rect fill=%22%23222%22 x=%22500%22 y=%22500%22 width=%22300%22 height=%22200%22/></svg>'); background-size: cover; background-position: center;">
         <div class="px-4 md:px-8 lg:px-16 max-w-2xl">
             <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">
                 Stranger Things
@@ -191,44 +289,429 @@
     </div>
 
     <script>
-        // Sample movie data
+        // Enhanced movie data with more titles and better images
         const movies = {
             trending: [
-                { title: "The Matrix", year: "1999", genre: "Sci-Fi", rating: "8.7", description: "A computer programmer discovers that reality as he knows it is a simulation." },
-                { title: "Inception", year: "2010", genre: "Thriller", rating: "8.8", description: "A thief who steals corporate secrets through dream-sharing technology." },
-                { title: "Interstellar", year: "2014", genre: "Sci-Fi", rating: "8.6", description: "A team of explorers travel through a wormhole in space." },
-                { title: "The Dark Knight", year: "2008", genre: "Action", rating: "9.0", description: "Batman faces his greatest challenge yet with the Joker." },
-                { title: "Pulp Fiction", year: "1994", genre: "Crime", rating: "8.9", description: "The lives of two mob hitmen, a boxer, and others intertwine." },
-                { title: "Fight Club", year: "1999", genre: "Drama", rating: "8.8", description: "An insomniac office worker forms an underground fight club." }
+                { 
+                    title: "Stranger Things", 
+                    year: "2016", 
+                    genre: "Sci-Fi", 
+                    rating: "8.7", 
+                    description: "Kids in a small town encounter supernatural forces and government experiments in the 1980s.",
+                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Wednesday", 
+                    year: "2022", 
+                    genre: "Comedy", 
+                    rating: "8.1", 
+                    description: "Wednesday Addams navigates her years as a student at Nevermore Academy while solving supernatural mysteries.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Crown", 
+                    year: "2016", 
+                    genre: "Drama", 
+                    rating: "8.7", 
+                    description: "The reign of Queen Elizabeth II from the 1940s to modern times, exploring royal family dynamics.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Money Heist", 
+                    year: "2017", 
+                    genre: "Crime", 
+                    rating: "8.2", 
+                    description: "A criminal mastermind manipulates hostages and police during elaborate heists in Spain.",
+                    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Witcher", 
+                    year: "2019", 
+                    genre: "Fantasy", 
+                    rating: "8.2", 
+                    description: "Geralt of Rivia, a monster hunter, navigates a world of magic and political intrigue.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Ozark", 
+                    year: "2017", 
+                    genre: "Crime", 
+                    rating: "8.4", 
+                    description: "A financial advisor launders money for a Mexican cartel while relocating his family.",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "House of Cards", 
+                    year: "2013", 
+                    genre: "Drama", 
+                    rating: "8.7", 
+                    description: "A ruthless politician will stop at nothing to gain power in Washington D.C.",
+                    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Black Mirror", 
+                    year: "2011", 
+                    genre: "Sci-Fi", 
+                    rating: "8.8", 
+                    description: "Anthology series exploring the dark side of technology and human nature.",
+                    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=300&h=450&fit=crop&crop=center"
+                }
             ],
             popular: [
-                { title: "Breaking Bad", year: "2008", genre: "Drama", rating: "9.5", description: "A high school chemistry teacher turned methamphetamine manufacturer." },
-                { title: "Game of Thrones", year: "2011", genre: "Fantasy", rating: "9.3", description: "Noble families vie for control of the Iron Throne." },
-                { title: "The Office", year: "2005", genre: "Comedy", rating: "9.0", description: "A mockumentary about office employees in Scranton, PA." },
-                { title: "Stranger Things", year: "2016", genre: "Sci-Fi", rating: "8.7", description: "Kids in a small town encounter supernatural forces." },
-                { title: "The Crown", year: "2016", genre: "Drama", rating: "8.7", description: "The reign of Queen Elizabeth II from the 1940s to modern times." },
-                { title: "Narcos", year: "2015", genre: "Crime", rating: "8.8", description: "The true story of the Colombian drug cartels." }
+                { 
+                    title: "Breaking Bad", 
+                    year: "2008", 
+                    genre: "Drama", 
+                    rating: "9.5", 
+                    description: "A high school chemistry teacher diagnosed with cancer turns to cooking meth.",
+                    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Squid Game", 
+                    year: "2021", 
+                    genre: "Thriller", 
+                    rating: "8.0", 
+                    description: "Players compete in deadly childhood games for a massive cash prize in South Korea.",
+                    image: "https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Umbrella Academy", 
+                    year: "2019", 
+                    genre: "Superhero", 
+                    rating: "7.9", 
+                    description: "Adopted siblings with superpowers reunite to solve their father's mysterious death.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Dark", 
+                    year: "2017", 
+                    genre: "Sci-Fi", 
+                    rating: "8.8", 
+                    description: "A time travel conspiracy spans several generations in a small German town.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Bridgerton", 
+                    year: "2020", 
+                    genre: "Romance", 
+                    rating: "7.3", 
+                    description: "The romantic lives of the Bridgerton family in Regency-era London high society.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Narcos", 
+                    year: "2015", 
+                    genre: "Crime", 
+                    rating: "8.8", 
+                    description: "The rise and fall of Colombian drug kingpin Pablo Escobar and the Medellín Cartel.",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Office", 
+                    year: "2005", 
+                    genre: "Comedy", 
+                    rating: "9.0", 
+                    description: "A mockumentary following the daily lives of office employees in Scranton, PA.",
+                    image: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Friends", 
+                    year: "1994", 
+                    genre: "Comedy", 
+                    rating: "8.9", 
+                    description: "Six friends navigate life and love in New York City through their twenties and thirties.",
+                    image: "https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=300&h=450&fit=crop&crop=center"
+                }
             ],
             action: [
-                { title: "John Wick", year: "2014", genre: "Action", rating: "7.4", description: "An ex-hitman comes out of retirement for revenge." },
-                { title: "Mad Max: Fury Road", year: "2015", genre: "Action", rating: "8.1", description: "In a post-apocalyptic wasteland, survivors fight for resources." },
-                { title: "The Avengers", year: "2012", genre: "Action", rating: "8.0", description: "Earth's mightiest heroes assemble to save the world." },
-                { title: "Gladiator", year: "2000", genre: "Action", rating: "8.5", description: "A Roman general seeks revenge against the emperor." },
-                { title: "Die Hard", year: "1988", genre: "Action", rating: "8.2", description: "A cop battles terrorists in a Los Angeles skyscraper." },
-                { title: "Speed", year: "1994", genre: "Action", rating: "7.3", description: "A bus rigged with a bomb must maintain speed above 50 mph." }
+                { 
+                    title: "Extraction", 
+                    year: "2020", 
+                    genre: "Action", 
+                    rating: "6.7", 
+                    description: "A black market mercenary is hired to rescue a kidnapped boy in Bangladesh.",
+                    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Old Guard", 
+                    year: "2020", 
+                    genre: "Action", 
+                    rating: "6.6", 
+                    description: "A group of immortal mercenaries fight to protect their secret and freedom.",
+                    image: "https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "6 Underground", 
+                    year: "2019", 
+                    genre: "Action", 
+                    rating: "6.1", 
+                    description: "Six billionaires fake their deaths to form an elite vigilante squad against injustice.",
+                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Red Notice", 
+                    year: "2021", 
+                    genre: "Action", 
+                    rating: "6.3", 
+                    description: "An FBI profiler must partner with a con artist to catch the world's most wanted thief.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Triple Frontier", 
+                    year: "2019", 
+                    genre: "Action", 
+                    rating: "6.4", 
+                    description: "Former Special Forces operatives reunite for a heist in South America.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Bright", 
+                    year: "2017", 
+                    genre: "Action", 
+                    rating: "6.3", 
+                    description: "A human cop and his orc partner fight dark forces in an alternate present-day LA.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                }
             ],
             documentary: [
-                { title: "Our Planet", year: "2019", genre: "Documentary", rating: "9.3", description: "Stunning footage showcases Earth's natural beauty and wildlife." },
-                { title: "Making a Murderer", year: "2015", genre: "Documentary", rating: "8.6", description: "The story of Steven Avery and the American justice system." },
-                { title: "The Social Dilemma", year: "2020", genre: "Documentary", rating: "7.6", description: "Tech experts sound the alarm on social media's impact." },
-                { title: "Free Solo", year: "2018", genre: "Documentary", rating: "8.1", description: "Rock climber Alex Honnold attempts to climb El Capitan without ropes." },
-                { title: "Won't You Be My Neighbor?", year: "2018", genre: "Documentary", rating: "8.4", description: "A look at the life and legacy of Fred Rogers." },
-                { title: "Tiger King", year: "2020", genre: "Documentary", rating: "7.5", description: "The wild world of big cat breeding and Joe Exotic." }
+                { 
+                    title: "Our Planet", 
+                    year: "2019", 
+                    genre: "Documentary", 
+                    rating: "9.3", 
+                    description: "Stunning footage showcases Earth's natural beauty and the impact of climate change.",
+                    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Making a Murderer", 
+                    year: "2015", 
+                    genre: "Documentary", 
+                    rating: "8.6", 
+                    description: "The controversial case of Steven Avery and the American criminal justice system.",
+                    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Social Dilemma", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "7.6", 
+                    description: "Tech industry insiders expose the hidden dangers of social networking platforms.",
+                    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "My Octopus Teacher", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "8.1", 
+                    description: "A filmmaker forms an unusual bond with an octopus living in a South African kelp forest.",
+                    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Tiger King", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "7.5", 
+                    description: "The eccentric world of big cat breeding and the rivalry between Joe Exotic and Carole Baskin.",
+                    image: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Seaspiracy", 
+                    year: "2021", 
+                    genre: "Documentary", 
+                    rating: "8.1", 
+                    description: "An investigation into the environmental and human rights impact of commercial fishing.",
+                    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=450&fit=crop&crop=center"
+                }
             ],
             mylist: [
-                { title: "The Witcher", year: "2019", genre: "Fantasy", rating: "8.2", description: "A monster hunter navigates a world of magic and political intrigue." },
-                { title: "Ozark", year: "2017", genre: "Crime", rating: "8.4", description: "A financial advisor launders money for a Mexican cartel." },
-                { title: "The Umbrella Academy", year: "2019", genre: "Superhero", rating: "7.9", description: "Adopted siblings with superpowers reunite to solve their father's death." }
+                { 
+                    title: "The Queen's Gambit", 
+                    year: "2020", 
+                    genre: "Drama", 
+                    rating: "8.5", 
+                    description: "An orphaned chess prodigy struggles with addiction while rising to become a world champion.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Lupin", 
+                    year: "2021", 
+                    genre: "Crime", 
+                    rating: "7.5", 
+                    description: "A master thief seeks revenge for his father's injustice in modern-day Paris.",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Good Place", 
+                    year: "2016", 
+                    genre: "Comedy", 
+                    rating: "8.2", 
+                    description: "A woman tries to become a better person in the afterlife with hilarious consequences.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Mindhunter", 
+                    year: "2017", 
+                    genre: "Crime", 
+                    rating: "8.6", 
+                    description: "FBI agents interview imprisoned serial killers to solve ongoing murder cases.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Elite", 
+                    year: "2018", 
+                    genre: "Drama", 
+                    rating: "7.5", 
+                    description: "Class conflicts arise when working-class students enter an exclusive private school.",
+                    image: "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?w=300&h=450&fit=crop&crop=center"
+                }
+            ]
+        };
+                    rating: "7.3", 
+                    description: "The romantic lives of the Bridgerton family in Regency-era London.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Narcos", 
+                    year: "2015", 
+                    genre: "Crime", 
+                    rating: "8.8", 
+                    description: "The true story of the Colombian drug cartels.",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop&crop=center"
+                }
+            ],
+            action: [
+                { 
+                    title: "Extraction", 
+                    year: "2020", 
+                    genre: "Action", 
+                    rating: "6.7", 
+                    description: "A black market mercenary has to rescue a kidnapped boy.",
+                    image: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Old Guard", 
+                    year: "2020", 
+                    genre: "Action", 
+                    rating: "6.6", 
+                    description: "A group of immortal mercenaries fight to protect their secret.",
+                    image: "https://images.unsplash.com/photo-1607434472257-d9f8e57a643d?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Army of the Dead", 
+                    year: "2021", 
+                    genre: "Action", 
+                    rating: "5.8", 
+                    description: "A group of mercenaries plan a heist in zombie-infested Las Vegas.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "6 Underground", 
+                    year: "2019", 
+                    genre: "Action", 
+                    rating: "6.1", 
+                    description: "Six billionaires fake their deaths to form an elite vigilante squad.",
+                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Red Notice", 
+                    year: "2021", 
+                    genre: "Action", 
+                    rating: "6.3", 
+                    description: "An FBI profiler must partner with a con artist to catch another thief.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Triple Frontier", 
+                    year: "2019", 
+                    genre: "Action", 
+                    rating: "6.4", 
+                    description: "Former Special Forces operatives reunite for a heist in South America.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                }
+            ],
+            documentary: [
+                { 
+                    title: "Our Planet", 
+                    year: "2019", 
+                    genre: "Documentary", 
+                    rating: "9.3", 
+                    description: "Stunning footage showcases Earth's natural beauty and wildlife.",
+                    image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Making a Murderer", 
+                    year: "2015", 
+                    genre: "Documentary", 
+                    rating: "8.6", 
+                    description: "The story of Steven Avery and the American justice system.",
+                    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Social Dilemma", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "7.6", 
+                    description: "Tech experts sound the alarm on social media's impact.",
+                    image: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "My Octopus Teacher", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "8.1", 
+                    description: "A filmmaker forms an unusual bond with an octopus in a kelp forest.",
+                    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Tiger King", 
+                    year: "2020", 
+                    genre: "Documentary", 
+                    rating: "7.5", 
+                    description: "The wild world of big cat breeding and Joe Exotic.",
+                    image: "https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Seaspiracy", 
+                    year: "2021", 
+                    genre: "Documentary", 
+                    rating: "8.1", 
+                    description: "An investigation into the environmental impact of fishing.",
+                    image: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=300&h=450&fit=crop&crop=center"
+                }
+            ],
+            mylist: [
+                { 
+                    title: "The Queen's Gambit", 
+                    year: "2020", 
+                    genre: "Drama", 
+                    rating: "8.5", 
+                    description: "An orphaned chess prodigy rises to become a world champion.",
+                    image: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Lupin", 
+                    year: "2021", 
+                    genre: "Crime", 
+                    rating: "7.5", 
+                    description: "A master thief seeks revenge for his father's injustice.",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "The Good Place", 
+                    year: "2016", 
+                    genre: "Comedy", 
+                    rating: "8.2", 
+                    description: "A woman tries to become a better person in the afterlife.",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=450&fit=crop&crop=center"
+                },
+                { 
+                    title: "Mindhunter", 
+                    year: "2017", 
+                    genre: "Crime", 
+                    rating: "8.6", 
+                    description: "FBI agents study imprisoned serial killers to solve ongoing cases.",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=300&h=450&fit=crop&crop=center"
+                }
             ]
         };
 
@@ -236,13 +719,22 @@
         const colors = ['bg-red-800', 'bg-blue-800', 'bg-green-800', 'bg-purple-800', 'bg-yellow-800', 'bg-pink-800', 'bg-indigo-800'];
 
         function createMovieCard(movie) {
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
             return `
-                <div class="movie-card flex-shrink-0 w-48 cursor-pointer group" onclick="openModal('${movie.title}', '${movie.year}', '${movie.genre}', '${movie.rating}', '${movie.description}')">
-                    <div class="${randomColor} h-72 rounded-lg flex items-center justify-center mb-2 group-hover:brightness-110 transition-all duration-300">
-                        <div class="text-center p-4">
-                            <h3 class="font-bold text-lg mb-2">${movie.title}</h3>
-                            <p class="text-sm opacity-75">${movie.year}</p>
+                <div class="movie-card flex-shrink-0 w-48 cursor-pointer group" onclick="openModal('${movie.title}', '${movie.year}', '${movie.genre}', '${movie.rating}', '${movie.description}', '${movie.image}')">
+                    <div class="relative h-72 rounded-lg overflow-hidden mb-2 group-hover:brightness-110 transition-all duration-300">
+                        <img src="${movie.image}" alt="${movie.title}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                        <div class="w-full h-full bg-gradient-to-br from-red-800 to-purple-900 hidden items-center justify-center">
+                            <div class="text-center p-4">
+                                <h3 class="font-bold text-lg mb-2">${movie.title}</h3>
+                                <p class="text-sm opacity-75">${movie.year}</p>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                        <div class="absolute bottom-2 left-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div class="flex items-center justify-between text-xs">
+                                <span class="bg-black bg-opacity-70 px-2 py-1 rounded">${movie.rating}★</span>
+                                <span class="bg-black bg-opacity-70 px-2 py-1 rounded">${movie.year}</span>
+                            </div>
                         </div>
                     </div>
                     <h3 class="font-semibold text-sm truncate">${movie.title}</h3>
@@ -255,13 +747,21 @@
             row.innerHTML = moviesList.map(createMovieCard).join('');
         }
 
-        function openModal(title, year, genre, rating, description) {
+        function openModal(title, year, genre, rating, description, image) {
             const modal = document.getElementById('movie-modal');
             const modalContent = document.getElementById('modal-content');
             
             modalContent.innerHTML = `
-                <div class="bg-gray-800 h-64 rounded-lg mb-6 flex items-center justify-center">
-                    <div class="text-center">
+                <div class="relative h-64 rounded-lg mb-6 overflow-hidden">
+                    <img src="${image}" alt="${title}" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="w-full h-full bg-gradient-to-br from-red-800 to-purple-900 hidden items-center justify-center absolute inset-0">
+                        <div class="text-center">
+                            <h2 class="text-3xl font-bold mb-2">${title}</h2>
+                            <p class="text-lg text-gray-300">${year} • ${genre}</p>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-4 left-4">
                         <h2 class="text-3xl font-bold mb-2">${title}</h2>
                         <p class="text-lg text-gray-300">${year} • ${genre}</p>
                     </div>
